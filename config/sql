@@ -1,0 +1,31 @@
+-- Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS clinic_db;
+USE clinic_db;
+
+-- Create the users table
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    birthday DATE,
+    sex ENUM('Male', 'Female'),
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    role ENUM('user', 'admin') DEFAULT 'user'
+);
+
+-- Create the reservations table
+CREATE TABLE IF NOT EXISTS reservations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    full_name VARCHAR(100),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    service VARCHAR(100),
+    appointment_date DATE,
+    appointment_time TIME,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
